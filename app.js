@@ -5,13 +5,13 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const routes = require('./routes');
 const { handleError } = require('./middlewares/handleError');
-// const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { MONGODB_URI, PORT } = require('./utils/config');
 
 const app = express();
 
-// app.use(requestLogger);
+app.use(requestLogger);
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
@@ -26,7 +26,7 @@ app.use(cors());
 
 app.use(routes);
 
-// app.use(errorLogger);
+app.use(errorLogger);
 
 app.use(handleError);
 
