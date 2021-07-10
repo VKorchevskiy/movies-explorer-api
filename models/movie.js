@@ -5,10 +5,10 @@ const movieSchema = new mongoose.Schema({
   country: { type: String, required: true },
   director: { type: String, required: true },
   duration: { type: Number, required: true },
-  year: { tupe: String, required: true },
-  description: { tupe: String, required: true },
+  year: { type: String, required: true },
+  description: { type: String, required: true },
   image: {
-    tupe: String,
+    type: String,
     required: true,
     validate: {
       validator: (v) => validator.isURL(v, { require_protocol: true }),
@@ -16,7 +16,7 @@ const movieSchema = new mongoose.Schema({
     },
   },
   trailer: {
-    tupe: String,
+    type: String,
     required: true,
     validate: {
       validator: (v) => validator.isURL(v, { require_protocol: true }),
@@ -24,7 +24,7 @@ const movieSchema = new mongoose.Schema({
     },
   },
   thumbnail: {
-    tupe: String,
+    type: String,
     required: true,
     validate: {
       validator: (v) => validator.isURL(v, { require_protocol: true }),
@@ -41,4 +41,4 @@ const movieSchema = new mongoose.Schema({
   nameEN: { type: String, required: true },
 });
 
-module.exports = mongoose.model('user', movieSchema);
+module.exports = mongoose.model('movie', movieSchema);
