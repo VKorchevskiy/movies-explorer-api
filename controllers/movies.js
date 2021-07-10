@@ -16,6 +16,7 @@ const convertMovie = (movie) => {
     movieId: movie.movieId,
     nameRU: movie.nameRU,
     nameEN: movie.nameEN,
+    _id: movie._id,
   };
   return convertedMovie;
 };
@@ -29,7 +30,9 @@ const processInvalidMovieError = (err, next) => {
 module.exports.getMovies = (req, res, next) => {
   Movie
     .find({})
-    .then((movies) => res.status(200).send(movies.map((movie) => convertMovie(movie))))
+    .then((movies) => res.status(200).send(movies
+      .filter((movie) => `${movie.owner}` === `${req.user._id}`)
+      .map((movie) => convertMovie(movie))))
     .catch(next);
 };
 
@@ -38,11 +41,11 @@ module.exports.deleteMovieById = (req, res, next) => {
 
   Movie.findById({ _id })
     .orFail(new NotFoundError('Фильм с указанным _id не найден.'))
-    .then((card) => {
-      if ((req.user._id.toString()) !== (card.owner._id).toString()) {
+    .then((movie) => {
+      if ((req.user._id.toString()) !== (movie.owner._id).toString()) {
         throw new ForbiddenError('Нельзя удалять чужие фильмы.');
       }
-      card.deleteOne();
+      movie.deleteOne();
       return res.status(200).send({ message: 'Фильм с указанным _id удален.' });
     })
     .catch((err) => {

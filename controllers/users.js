@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 const { JWT_SECRET, SALT_ROUNDS } = require('../utils/config');
-// const NotFoundError = require('../errors/not-found-error');
 const AuthError = require('../errors/auth-error');
 const ConflictError = require('../errors/conflict-error');
 const InvalidDataError = require('../errors/invalid-data-error');
@@ -54,8 +53,6 @@ module.exports.login = (req, res, next) => {
 module.exports.createUser = (req, res, next) => {
   const {
     name,
-    about,
-    avatar,
     email,
     password,
   } = req.body;
@@ -68,8 +65,6 @@ module.exports.createUser = (req, res, next) => {
         }
         return User.create({
           name,
-          about,
-          avatar,
           email,
           password: hash,
         })
