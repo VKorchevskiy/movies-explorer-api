@@ -10,7 +10,7 @@ const validateUrl = (url) => {
   return url;
 };
 
-const userValidator = celebrate({
+const createUserValidator = celebrate({
   body: Joi.object({
     name: Joi.string().min(2).max(30),
     email: Joi.string().email().required(),
@@ -18,11 +18,25 @@ const userValidator = celebrate({
   }),
 });
 
-const movieSchemaValidator = celebrate({
+const loginUserValidator = celebrate({
+  body: Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  }),
+});
+
+const patchUserValidator = celebrate({
+  body: Joi.object({
+    name: Joi.string().min(2).max(30),
+    email: Joi.string().email().required(),
+  }),
+});
+
+const createMovieValidator = celebrate({
   body: Joi.object({
     country: Joi.string().required(),
     director: Joi.string().required(),
-    duration: Joi.string().required(),
+    duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().custom(validateUrl),
@@ -36,12 +50,14 @@ const movieSchemaValidator = celebrate({
 
 const movieIdValidator = celebrate({
   params: Joi.object({
-    cardId: Joi.string().length(24).hex(),
+    movieId: Joi.string().length(24).hex(),
   }),
 });
 
 module.exports = {
-  userValidator,
-  movieSchemaValidator,
+  createUserValidator,
+  loginUserValidator,
+  patchUserValidator,
+  createMovieValidator,
   movieIdValidator,
 };
