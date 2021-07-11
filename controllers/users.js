@@ -6,6 +6,9 @@ const { JWT_SECRET, SALT_ROUNDS } = require('../utils/config');
 const AuthError = require('../errors/auth-error');
 const ConflictError = require('../errors/conflict-error');
 const InvalidDataError = require('../errors/invalid-data-error');
+const INVALID_USER_DATA_ERROR = require('../utils/constants');
+const INVALID_EMAIL_OR_PASSWORD_ERROR = require('../utils/constants');
+const USER_EXISTS_ERROR = require('../utils/constants');
 
 const convertUser = (user) => {
   const convertedUser = {
@@ -18,7 +21,7 @@ const convertUser = (user) => {
 
 const processInvalidUserError = (err, next) => {
   if (err.name === 'CastError' || err.name === 'ValidationError') {
-    next(new InvalidDataError('Переданы некорректные данные пользователя.'));
+    next(new InvalidDataError(INVALID_USER_DATA_ERROR));
   }
 };
 
@@ -33,11 +36,11 @@ module.exports.login = (req, res, next) => {
   return User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new AuthError('Неправильные почта или пароль.');
+        throw new AuthError(INVALID_EMAIL_OR_PASSWORD_ERROR);
       }
       return bcrypt.compare(password, user.password, (err, isValid) => {
         if (!isValid) {
-          return next(new AuthError('Неправильные почта или пароль.'));
+          return next(new AuthError(INVALID_EMAIL_OR_PASSWORD_ERROR));
         }
         const token = jwt.sign(
           { _id: user._id },
@@ -61,7 +64,7 @@ module.exports.createUser = (req, res, next) => {
     User.findOne({ email })
       .then((user) => {
         if (user) {
-          throw new ConflictError('Такой пользователь уже существует.');
+          throw new ConflictError(USER_EXISTS_ERROR);
         }
         return User.create({
           name,

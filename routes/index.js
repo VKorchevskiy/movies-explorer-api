@@ -7,6 +7,8 @@ const { auth } = require('../middlewares/auth');
 const { createUserValidator, loginUserValidator } = require('../utils/validators');
 const NotFoundError = require('../errors/not-found-error');
 const InvalidDataError = require('../errors/invalid-data-error');
+const NOT_FOUND_ERROR = require('../utils/constants');
+const INVALID_DATA_ERROR = require('../utils/constants');
 
 router.get('/crash-test', () => {
   setTimeout(() => {
@@ -22,11 +24,11 @@ router.use(auth);
 router.use('/users', userRoutes);
 router.use('/movies', movieRoutes);
 
-router.use((req, res, next) => next(new NotFoundError('Ресурс не найден')));
+router.use((req, res, next) => next(new NotFoundError(NOT_FOUND_ERROR)));
 
 router.use((err, req, res, next) => {
   if (isCelebrateError(err)) {
-    next(new InvalidDataError('Переданы некорректные данные.'));
+    next(new InvalidDataError(INVALID_DATA_ERROR));
   }
   next(err);
 });

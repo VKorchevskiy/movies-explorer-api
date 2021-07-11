@@ -2,10 +2,11 @@ const { celebrate } = require('celebrate');
 const Joi = require('joi');
 const validator = require('validator');
 const InvalidDataError = require('../errors/invalid-data-error');
+const INVALID_URL_ERROR = require('./constants');
 
 const validateUrl = (url) => {
   if (!validator.isURL(url, { require_protocol: true })) {
-    throw new InvalidDataError('Переданы некорректные данные.');
+    throw new InvalidDataError(INVALID_URL_ERROR);
   }
   return url;
 };
