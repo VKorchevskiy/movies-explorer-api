@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const INVALID_URL_ERROR = require('../utils/constants');
+const { INVALID_URL_ERROR } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: { type: String, required: true },

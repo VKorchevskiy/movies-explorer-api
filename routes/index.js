@@ -7,8 +7,8 @@ const { auth } = require('../middlewares/auth');
 const { createUserValidator, loginUserValidator } = require('../utils/validators');
 const NotFoundError = require('../errors/not-found-error');
 const InvalidDataError = require('../errors/invalid-data-error');
-const NOT_FOUND_ERROR = require('../utils/constants');
-const INVALID_DATA_ERROR = require('../utils/constants');
+const { NOT_FOUND_ERROR } = require('../utils/constants');
+const { INVALID_DATA_ERROR } = require('../utils/constants');
 
 router.get('/crash-test', () => {
   setTimeout(() => {

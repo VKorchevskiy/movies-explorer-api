@@ -6,15 +6,15 @@ const { JWT_SECRET, SALT_ROUNDS } = require('../utils/config');
 const AuthError = require('../errors/auth-error');
 const ConflictError = require('../errors/conflict-error');
 const InvalidDataError = require('../errors/invalid-data-error');
-const INVALID_USER_DATA_ERROR = require('../utils/constants');
-const INVALID_EMAIL_OR_PASSWORD_ERROR = require('../utils/constants');
-const USER_EXISTS_ERROR = require('../utils/constants');
+const { INVALID_USER_DATA_ERROR } = require('../utils/constants');
+const { INVALID_EMAIL_OR_PASSWORD_ERROR } = require('../utils/constants');
+const { USER_EXISTS_ERROR } = require('../utils/constants');
 
 const convertUser = (user) => {
   const convertedUser = {
     name: user.name,
     email: user.email,
-    _id: user._id,
+    // _id: user._id,
   };
   return convertedUser;
 };

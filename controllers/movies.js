@@ -2,10 +2,10 @@ const Movie = require('../models/movie');
 const NotFoundError = require('../errors/not-found-error');
 const ForbiddenError = require('../errors/forbidden-error');
 const InvalidDataError = require('../errors/invalid-data-error');
-const INVALID_MOVIE_DATA_ERROR = require('../utils/constants');
-const NOT_FOUND_MOVIE_ERROR = require('../utils/constants');
-const CAN_NOT_DELETE_OTHER_PEOPLE_MOVIES_ERROR = require('../utils/constants');
-const MOVIE_DELETE_MESSAGE = require('../utils/constants');
+const { INVALID_MOVIE_DATA_ERROR } = require('../utils/constants');
+const { NOT_FOUND_MOVIE_ERROR } = require('../utils/constants');
+const { CAN_NOT_DELETE_OTHER_PEOPLE_MOVIES_ERROR } = require('../utils/constants');
+const { MOVIE_DELETE_MESSAGE } = require('../utils/constants');
 
 const convertMovie = (movie) => {
   const convertedMovie = {
