@@ -13,7 +13,7 @@ const validateUrl = (url) => {
 
 const createUserValidator = celebrate({
   body: Joi.object({
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().min(2).max(30).required(),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
@@ -28,7 +28,7 @@ const loginUserValidator = celebrate({
 
 const patchUserValidator = celebrate({
   body: Joi.object({
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().min(2).max(30).required(),
     email: Joi.string().email().required(),
   }),
 });
