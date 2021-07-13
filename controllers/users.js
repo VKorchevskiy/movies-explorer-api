@@ -27,7 +27,7 @@ const processInvalidUserError = (err, next) => {
 
 module.exports.getCurrentUser = (req, res, next) => {
   User.findOne({ _id: req.user._id })
-    .then((user) => res.status(200).send(convertUser(user)))
+    .then((user) => res.send(convertUser(user)))
     .catch(next);
 };
 
@@ -47,7 +47,7 @@ module.exports.login = (req, res, next) => {
           JWT_SECRET,
           { expiresIn: '7d' },
         );
-        return res.status(200).send({ token });
+        return res.send({ token });
       });
     })
     .catch(next);
@@ -71,7 +71,7 @@ module.exports.createUser = (req, res, next) => {
           email,
           password: hash,
         })
-          .then((userData) => res.status(200).send(convertUser(userData)));
+          .then((userData) => res.send(convertUser(userData)));
       })
       .catch((error) => {
         processInvalidUserError(error, next);
@@ -85,7 +85,7 @@ module.exports.patchUserInfo = (req, res, next) => {
   User
     .findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
     .orFail()
-    .then((user) => res.status(200).send(convertUser(user)))
+    .then((user) => res.send(convertUser(user)))
     .catch((err) => {
       processInvalidUserError(err, next);
       next(err);

@@ -36,7 +36,7 @@ const processInvalidMovieError = (err, next) => {
 module.exports.getMovies = (req, res, next) => {
   Movie
     .find({})
-    .then((movies) => res.status(200).send(movies
+    .then((movies) => res.send(movies
       .filter((movie) => `${movie.owner}` === `${req.user._id}`)
       .map((movie) => convertMovie(movie))))
     .catch(next);
@@ -52,7 +52,7 @@ module.exports.deleteMovieById = (req, res, next) => {
         throw new ForbiddenError(CAN_NOT_DELETE_OTHER_PEOPLE_MOVIES_ERROR);
       }
       movie.deleteOne();
-      return res.status(200).send({ message: MOVIE_DELETE_MESSAGE });
+      return res.send({ message: MOVIE_DELETE_MESSAGE });
     })
     .catch((err) => {
       processInvalidMovieError(err, next);
