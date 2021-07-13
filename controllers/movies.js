@@ -51,8 +51,7 @@ module.exports.deleteMovieById = (req, res, next) => {
       if ((req.user._id.toString()) !== (movie.owner._id).toString()) {
         throw new ForbiddenError(CAN_NOT_DELETE_OTHER_PEOPLE_MOVIES_ERROR);
       }
-      movie.deleteOne();
-      return res.send({ message: MOVIE_DELETE_MESSAGE });
+      return movie.deleteOne().then(res.send({ message: MOVIE_DELETE_MESSAGE }));
     })
     .catch((err) => {
       processInvalidMovieError(err, next);
