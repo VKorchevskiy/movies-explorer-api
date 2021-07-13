@@ -28,6 +28,8 @@ const convertMovie = (movie) => {
 const processInvalidMovieError = (err, next) => {
   if (err.name === 'CastError' || err.name === 'ValidationError') {
     next(new InvalidDataError(INVALID_MOVIE_DATA_ERROR));
+  } else {
+    next(err);
   }
 };
 
@@ -54,7 +56,6 @@ module.exports.deleteMovieById = (req, res, next) => {
     })
     .catch((err) => {
       processInvalidMovieError(err, next);
-      next(err);
     });
 };
 
@@ -90,6 +91,5 @@ module.exports.createMovie = (req, res, next) => {
     .then((movie) => res.status(201).send(convertMovie(movie)))
     .catch((err) => {
       processInvalidMovieError(err, next);
-      next(err);
     });
 };
