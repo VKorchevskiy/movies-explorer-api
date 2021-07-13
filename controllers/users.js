@@ -22,6 +22,8 @@ const convertUser = (user) => {
 const processInvalidUserError = (err, next) => {
   if (err.name === 'CastError' || err.name === 'ValidationError') {
     next(new InvalidDataError(INVALID_USER_DATA_ERROR));
+  } else {
+    next(err);
   }
 };
 
@@ -75,7 +77,6 @@ module.exports.createUser = (req, res, next) => {
       })
       .catch((error) => {
         processInvalidUserError(error, next);
-        next(error);
       });
   });
 };
@@ -88,6 +89,5 @@ module.exports.patchUserInfo = (req, res, next) => {
     .then((user) => res.send(convertUser(user)))
     .catch((err) => {
       processInvalidUserError(err, next);
-      next(err);
     });
 };
