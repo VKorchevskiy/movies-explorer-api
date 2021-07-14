@@ -8,6 +8,7 @@ const INVALID_EMAIL_OR_PASSWORD_ERROR = 'Неправильные почта и�
 const SERVER_ERROR = 'На сервере произошла ошибка.';
 const AUTH_ERROR = 'Необходима авторизация.';
 const USER_EXISTS_ERROR = 'Такой пользователь уже существует.';
+const USER_EMAIL_CONFLICT_ERROR = 'Попробуйте другой почтовый адрес.';
 const NOT_FOUND_ERROR = 'Ресурс не найден.';
 const NOT_FOUND_MOVIE_ERROR = 'Фильм с указанным _id не найден.';
 const CAN_NOT_DELETE_OTHER_PEOPLE_MOVIES_ERROR = 'Нельзя удалять чужие фильмы.';
@@ -34,6 +35,7 @@ module.exports = {
   SERVER_ERROR,
   AUTH_ERROR,
   USER_EXISTS_ERROR,
+  USER_EMAIL_CONFLICT_ERROR,
   NOT_FOUND_ERROR,
   NOT_FOUND_MOVIE_ERROR,
   CAN_NOT_DELETE_OTHER_PEOPLE_MOVIES_ERROR,

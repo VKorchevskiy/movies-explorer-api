@@ -8,7 +8,7 @@ const ConflictError = require('../errors/conflict-error');
 const InvalidDataError = require('../errors/invalid-data-error');
 const { INVALID_USER_DATA_ERROR } = require('../utils/constants');
 const { INVALID_EMAIL_OR_PASSWORD_ERROR } = require('../utils/constants');
-const { USER_EXISTS_ERROR } = require('../utils/constants');
+const { USER_EXISTS_ERROR, USER_EMAIL_CONFLICT_ERROR } = require('../utils/constants');
 
 const convertUser = (user) => {
   const convertedUser = {
@@ -83,11 +83,18 @@ module.exports.createUser = (req, res, next) => {
 
 module.exports.patchUserInfo = (req, res, next) => {
   const { name, email } = req.body;
+
   User
-    .findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
-    .orFail()
-    .then((user) => res.send(convertUser(user)))
-    .catch((err) => {
-      processInvalidUserError(err, next);
-    });
+    .findOne({ email })
+    .then((user) => {
+      if (user) {
+        next(new ConflictError(USER_EMAIL_CONFLICT_ERROR));
+      }
+      return User
+        .findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
+        .orFail()
+        .then((userUpdater) => res.send(convertUser(userUpdater)))
+        .catch((err) => processInvalidUserError(err, next));
+    })
+    .catch((err) => processInvalidUserError(err, next));
 };
