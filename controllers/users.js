@@ -22,6 +22,8 @@ const convertUser = (user) => {
 const processInvalidUserError = (err, next) => {
   if (err.name === 'CastError' || err.name === 'ValidationError') {
     next(new InvalidDataError(INVALID_USER_DATA_ERROR));
+  } else if (err.name === 'MongoError' && err.code === 11000) {
+    next(new ConflictError(USER_EMAIL_CONFLICT_ERROR));
   } else {
     next(err);
   }
@@ -85,16 +87,8 @@ module.exports.patchUserInfo = (req, res, next) => {
   const { name, email } = req.body;
 
   User
-    .findOne({ email })
-    .then((user) => {
-      if (user) {
-        next(new ConflictError(USER_EMAIL_CONFLICT_ERROR));
-      }
-      return User
-        .findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
-        .orFail()
-        .then((userUpdater) => res.send(convertUser(userUpdater)))
-        .catch((err) => processInvalidUserError(err, next));
-    })
+    .findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true })
+    .orFail()
+    .then((userUpdater) => res.send(convertUser(userUpdater)))
     .catch((err) => processInvalidUserError(err, next));
 };
