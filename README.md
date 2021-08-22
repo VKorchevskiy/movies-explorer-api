@@ -53,6 +53,3 @@
 <h3 id="address">Адрес бэкенда</h3>
 
 `api.diploma.vkorchevskiy.nomoredomains.club`
-
-`84.201.187.121`
-
