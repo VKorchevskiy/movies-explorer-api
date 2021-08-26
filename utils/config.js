@@ -1,5 +1,5 @@
 const { MONGODB_URI = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
-const { PORT = 3000 } = +process.env.PORT;
+const PORT = +process.env.PORT || 3000;
 const { NODE_ENV = 'development' } = process.env;
 const { JWT_SECRET = 'Super-strong-secret-key' } = process.env;
 const { SALT_ROUNDS = 10 } = +process.env.SALT_ROUNDS;
